@@ -32,6 +32,8 @@ typedef struct{
 	int pos;
 } ECU;
 
+void fromDecimalToBinary(unsigned long long, unsigned long long);
+
 void C(unsigned long long, unsigned long long);
 
 static inline unsigned long long* B(const char*, unsigned long long*);
@@ -50,19 +52,33 @@ int find_position(NODE* *nodes, int numNodes, int old_ID);
 
 int main( int argc, char* argv[] )
 {
-	//char message[16];
 	memset(message, 0, 128);
-
+	
 	unsigned long long x,y;
 
-	x=234;
+	x=1234567890987654321;
 	y=0;
 
 	C(x,y);
+	
 	printf("%s\n", message);
 	getchar();
+	
 	unsigned long long jkl[2];
 	unsigned long long* q = B(message, jkl);
+	
+	printf("%llu %llu\n",q[0], q[1]);
+	getchar();
+	
+	memset(message, 0, 128);
+	
+	fromDecimalToBinary(x,y);
+	
+	printf("Message2 %s\n", message);
+	getchar();
+	
+	q = B(message, jkl);
+	
 	printf("%llu %llu\n",q[0], q[1]);
 	getchar();
 
@@ -230,33 +246,55 @@ int find_position(NODE* *nodes, int numNodes, int ID)
 	return(i);
 }
 
-char* fromDecimalToBinary(unsigned long long ID, unsigned long long mess)
+void fromDecimalToBinary(unsigned long long ID, unsigned long long mess)
 {
 	unsigned long long k,c;
+	message[0]='1';
 	int i=1;
 	for(c=12; c>=1; c--)
 	{
+		printf("first loop %d\n", i);
 		k = ID >> c;
 		if(k & 1)
 			message[i]='1';
 		else
 			message[i]='0';
+		printf("first loop char %c\n", message[i]);
 		i++;
 		if(c==1)
 			break;
 	}
+	//printf("I am in from decimal to binary %s\n", message);
+	for(i=13; i<15; i++)
+	{
+		message[i]='0';
+		if(i==14)
+			break;
+	}
+
 	i=15;
 	for(c=33; c>=15; c--)
 	{
+		printf("secnod loop %d\n", i);
 		k = mess >> c;
 		if(k & 1)
 			message[i]='1';
 		else
 			message[i]='0';
+		printf("second loop char %c\n", message[i]);
 		i++;
 		if(c==15)
 			break;
 	}
+	for(i=34; i<=127; i++)
+	{
+		message[i]='0';
+		if(i==127)
+			break;
+	}
+
+	printf("I am in from decimal to binary %s\n", message);
+	getchar();
 }
 
 void C(unsigned long long b1, unsigned long long b2)
