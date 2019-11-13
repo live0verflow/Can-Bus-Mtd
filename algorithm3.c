@@ -343,7 +343,7 @@ static inline unsigned long long* B(const char* s, unsigned long long* i)
     return i;
 }
 
-char* sendMessage(char* message)
+char* sendMessage()
 {
 
 }
